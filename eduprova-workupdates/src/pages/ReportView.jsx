@@ -23,7 +23,7 @@ export default function ReportView() {
             </div>
 
             <iframe
-                src="http://40.192.76.174:8501"
+                src="http://40.192.76.174:8501/"
                 style={{
                     width: "100%",
                     height: "100%",
