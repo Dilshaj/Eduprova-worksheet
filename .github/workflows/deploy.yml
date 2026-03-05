@@ -22,12 +22,15 @@ jobs:
         script: |
           cd ~/Eduprova-wroksheet
 
+          echo "Reset local changes"
+          git reset --hard HEAD
+
           echo "Pull latest code"
           git pull origin main
 
           echo "Build frontend"
           cd eduprova-workupdates
-          npm install
+          npm install --force
           npm run build
 
           echo "Deploy frontend"
