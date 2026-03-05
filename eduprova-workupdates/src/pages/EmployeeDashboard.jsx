@@ -20,20 +20,10 @@ const EmployeeDashboard = () => {
     const currentUser = user;
 
     const overallWeeklyProgress = useMemo(() => {
-        const weeklyTasks = tasks.filter(task =>
-            task.employeeId === (currentUser.employeeId || currentUser.id) &&
-            (task.viewType === "weekly" || !task.viewType)
-        );
-
-        if (weeklyTasks.length === 0) return 0;
-
-        const total = weeklyTasks.reduce(
-            (sum, task) => sum + Number(task.progress || 0),
-            0
-        );
-
-        return Math.round(total / weeklyTasks.length);
-    }, [tasks, currentUser]);
+        return tasks.length > 0
+            ? Math.round(tasks.reduce((sum, t) => sum + (t.progress || 0), 0) / tasks.length)
+            : 0;
+    }, [tasks]);
 
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 

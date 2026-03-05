@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import UserDashboard from './pages/UserDashboard';
 import Navbar from './components/Navbar';
+import ReportView from './pages/ReportView';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRole }) => {
@@ -49,6 +50,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          <Route path="/report" element={<ReportView />} />
         </Routes>
       </div>
     </div>

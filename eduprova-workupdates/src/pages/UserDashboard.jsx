@@ -22,9 +22,9 @@ const UserDashboard = () => {
     }, [employeeTasks, view]);
 
     const progress = useMemo(() => {
-        if (employeeTasks.length === 0) return 0;
-        const completed = employeeTasks.filter(t => t.status === 'completed').length;
-        return Math.round((completed / employeeTasks.length) * 100);
+        return employeeTasks.length > 0
+            ? Math.round(employeeTasks.reduce((sum, t) => sum + (t.progress || 0), 0) / employeeTasks.length)
+            : 0;
     }, [employeeTasks]);
 
     if (!employee) {

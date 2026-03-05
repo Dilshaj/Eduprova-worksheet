@@ -125,8 +125,8 @@ const AdminDashboard = () => {
     // Calculate statistics
     const stats = useMemo(() => {
         const totalTasks = filteredTasks.length;
-        const completedTasks = filteredTasks.filter(t => t.status === 'completed').length;
-        const completionRate = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+        const totalProgress = filteredTasks.reduce((sum, task) => sum + Number(task.progress || 0), 0);
+        const completionRate = totalTasks === 0 ? 0 : Math.round(totalProgress / totalTasks);
 
         return {
             employees: employees.length,
@@ -142,11 +142,9 @@ const AdminDashboard = () => {
     };
 
     const calculateWeeklyProgress = (employeeId) => {
-        const weeklyTasks = filteredTasks.filter(task =>
-            task.employeeId === employeeId && (task.viewType === "weekly" || task.viewType === undefined)
-        );
-        if (weeklyTasks.length === 0) return 0;
-        return Math.round(weeklyTasks.reduce((sum, task) => sum + Number(task.progress || 0), 0) / weeklyTasks.length);
+        const employeeTasks = filteredTasks.filter(task => task.employeeId === employeeId);
+        if (employeeTasks.length === 0) return 0;
+        return Math.round(employeeTasks.reduce((sum, task) => sum + Number(task.progress || 0), 0) / employeeTasks.length);
     };
 
     const employeeGridData = useMemo(() => {
@@ -388,6 +386,12 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="flex items-center space-x-3 w-full sm:w-auto">
+                        <button
+                            onClick={() => navigate("/report")}
+                            className="flex-1 sm:flex-none inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                        >
+                            View Report
+                        </button>
                         <button
                             onClick={handleExportCSV}
                             className="flex-1 sm:flex-none inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
